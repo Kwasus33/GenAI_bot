@@ -25,9 +25,9 @@ def test_form_completion():
     assert form.is_complete() is True
 
 
-def test_form_update_from_ai():
+def test_form_update_data():
     form = Form()
     update = {"Firstname": "Anna", "Urgency": 7}
-    form.update_from_ai(update)
+    form.update_data(update)
     assert form.data["Firstname"] == "Anna"
     assert form.data["Urgency"] == 7
