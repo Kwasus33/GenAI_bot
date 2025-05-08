@@ -22,6 +22,16 @@ Generative AI to assist users in filling out a helpdesk form
     ```
     Change phrase  **'your_key'** to generated Gemini Api Key 
 
+4. You need to add PYTHONPATH environment variable on your system so python will recognize src directory as a module
+```bash
+# unix
+export PYTHONPATH=$PYTHONPATH:path/to/GenAI_bot/src
+
+# windows
+$env:PYTHONPATH="$env:PYTHONPATH;path\to\GenAI_bot\src" 
+```
+Change **path/to/GenAI_bot/src** to your system full path to src module (directory) of this project
+
 ## About app
 * app can be run with 2 optional arguments:
     * if we run **python3 src/main.py --path "out.json"** - there will be created file out.json with whole chat session (user inputs + llm responses)
@@ -64,3 +74,8 @@ docker run --env-file .env -it helpdesk-ai
 # in Dockerfile if want to have last 10 logs of chat session
 ```
 
+## Running tests locally (need to have PATHONPATH variable exported)
+```bash
+cd GenAI_bot 
+pytest tests/*
+```
