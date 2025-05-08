@@ -11,7 +11,6 @@ load_dotenv()
 
 class LLM_Parser:
     def __init__(self):
-        self.context = {}
         self.client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
         self._init_prompt()
 
@@ -25,14 +24,11 @@ class LLM_Parser:
         with open(prompt_path, "r") as fh:
             self.initial_prompt = fh.read()
 
-    def _update_context(self, user_prompt, ai_response):
-        self.context[user_prompt] = ai_response
-
-    def call_gemini(self, user_prompt, form):
+    def call_gemini(self, user_prompt, form, context):
 
         prompt = (
             self.initial_prompt
-            + f"\nSession Context:\n{list(self.context.items())}\n"
+            + f"\nSession history:\n{context}\n"
             + f"\nCurrent form state:\n{form.to_json()}\n"
             + f"User: {user_prompt}\n"
         )
@@ -44,8 +40,6 @@ class LLM_Parser:
             ),
             contents=prompt,
         )
-
-        self._update_context(user_prompt, response.text)
 
         match = re.search(r"(\{.*?\})", response.text, re.DOTALL)
         if not match:
