@@ -8,7 +8,7 @@ class Form:
             "Lastname": "",
             "Email": "",
             "Reason of contact": "",
-            "Urgency": "",
+            "Urgency": None,
         }
 
     def update_data(self, response: dict) -> None:
