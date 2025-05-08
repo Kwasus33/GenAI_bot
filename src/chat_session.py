@@ -2,21 +2,30 @@ from llm_parser import LLM_Parser
 from form import Form
 
 from contextlib import contextmanager
+from typing import Generator, Optional
 import json
 
 
 @contextmanager
-def chat_session(save_to: str = None, history_len: int = None):
+def chat_session(
+    save_to: Optional[str] = None, history_len: Optional[int] = None
+) -> Generator[dict[str, list], None, None]:
     session = {"history": []}
     yield session
     if save_to:
         with open(save_to, "w+") as fh:
             if history_len:
-               json.dump(obj=session["history"][-history_len:], fp=fh, indent=4, ensure_ascii=False)
-            else: json.dump(obj=session["history"], fp=fh, indent=4, ensure_ascii=False)
+                json.dump(
+                    obj=session["history"][-history_len:],
+                    fp=fh,
+                    indent=4,
+                    ensure_ascii=False,
+                )
+            else:
+                json.dump(obj=session["history"], fp=fh, indent=4, ensure_ascii=False)
 
 
-def start_session(save_to: str = None, history_len: int = None):
+def start_session(save_to: str = None, history_len: int = None) -> None:
 
     with chat_session(save_to, history_len) as session:
 

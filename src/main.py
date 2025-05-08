@@ -1,6 +1,5 @@
 from chat_session import start_session
 import argparse
-import os
 
 
 def parse_arguments():

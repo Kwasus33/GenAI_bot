@@ -1,20 +1,23 @@
+from form import Form
+
 from google import genai
 from google.genai import types
 from dotenv import load_dotenv
+from typing import Union
+
 import os
 import re
-import json
 
 
 load_dotenv()
 
 
 class LLM_Parser:
-    def __init__(self):
+    def __init__(self) -> None:
         self.client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
         self._init_prompt()
 
-    def _init_prompt(self):
+    def _init_prompt(self) -> None:
         try:
             base_dir = os.path.dirname(os.path.abspath(__file__))
         except NameError:
@@ -24,7 +27,9 @@ class LLM_Parser:
         with open(prompt_path, "r") as fh:
             self.initial_prompt = fh.read()
 
-    def call_gemini(self, user_prompt, form, context):
+    def call_gemini(
+        self, user_prompt: str, form: Form, context: list[dict[str, dict[str, str]]]
+    ) -> Union[str, any]:
 
         prompt = (
             self.initial_prompt
