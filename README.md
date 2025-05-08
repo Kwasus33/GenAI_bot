@@ -74,7 +74,7 @@ docker run --env-file .env -it helpdesk-ai
 # in Dockerfile if want to have last 10 logs of chat session
 ```
 
-## Running tests locally (need to have PATHONPATH variable exported)
+## Running tests locally (need to have PYTHONPATH variable exported)
 ```bash
 cd GenAI_bot 
 pytest tests/*
