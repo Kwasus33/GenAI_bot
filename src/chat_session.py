@@ -15,14 +15,10 @@ def chat_session(
     if save_to:
         with open(save_to, "w+") as fh:
             if history_len:
-                json.dump(
-                    obj=session["history"][-history_len:],
-                    fp=fh,
-                    indent=4,
-                    ensure_ascii=False,
-                )
+                log = session["history"][-history_len:]
             else:
-                json.dump(obj=session["history"], fp=fh, indent=4, ensure_ascii=False)
+                log = session["history"]
+            json.dump(obj=log, fp=fh, indent=4, ensure_ascii=False)
 
 
 def start_session(save_to: str = None, history_len: int = None) -> None:
@@ -35,9 +31,12 @@ def start_session(save_to: str = None, history_len: int = None) -> None:
         print("Welcome to the Helpdesk AI Assistant!")
 
         while not form.is_complete():
+
             print(f"\nCurrent form state: {form.to_json()}\n")
+
             user_input = input("You: ")
             response = llm.call_gemini(user_input, form, session["history"])
+
             try:
                 response = json.loads(response)
             except json.JSONDecodeError or KeyError:
