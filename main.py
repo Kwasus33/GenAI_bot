@@ -1,4 +1,4 @@
-from chat_session import start_session
+from src.chat_session import start_session
 import argparse
 
 

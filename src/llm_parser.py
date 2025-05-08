@@ -19,10 +19,13 @@ class LLM_Parser:
 
     def _init_prompt(self) -> None:
         try:
-            base_dir = os.path.dirname(os.path.abspath(__file__))
-        except NameError:
-            base_dir = os.path.join(os.getcwd(), "/src/")
-        prompt_path = os.path.join(base_dir, "initial_prompt.txt")
+            base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            data_dir = os.path.join(base_dir, "data")
+            prompt_path = os.path.join(data_dir, "initial_prompt.txt")
+        except Exception as e:
+            raise RuntimeError(
+                f"Failed to determine the path to initial_prompt.txt: {e}"
+            )
 
         with open(prompt_path, "r") as fh:
             self.initial_prompt = fh.read()
