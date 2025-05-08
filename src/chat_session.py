@@ -1,5 +1,6 @@
 from llm_parser import LLM_Parser
 from form import Form
+import json
 
 
 def start_session():
@@ -12,7 +13,12 @@ def start_session():
         print(f"\nCurrent form state: {form.to_json()}\n")
         user_input = input("You: ")
         response = llm.call_gemini(user_input, form)
-        print(f"AI: {response}")
+        try:
+            response = json.loads(response)
+            print(f"AI: {response["message"]}")
+        except json.JSONDecodeError or KeyError:
+            response = {}
+            print("AI bot failed to respond to that")
         form.update_data(response)
 
     print("\nForm completed:")

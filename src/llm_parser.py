@@ -47,11 +47,10 @@ class LLM_Parser:
 
         self._update_context(user_prompt, response.text)
 
-        match = re.search(r"```json(.*?)```", response.text, re.DOTALL)
+        match = re.search(r"(\{.*?\})", response.text, re.DOTALL)
         if not match:
             raise RuntimeError("Failed to extract JSON from the Gemini response.")
 
         json_text = match.group(1).strip()
-        cleaned_response = json.loads(json_text)
 
-        return cleaned_response
+        return json_text
