@@ -17,7 +17,10 @@ class Form:
                 self.data[key] = response[key]
 
     def is_complete(self) -> bool:
-        isCompleted = all(value != "" for value in self.data.values())
+        isCompleted = all(
+            value not in ("", "Null") and value is not None
+            for value in self.data.values()
+        )
         return isCompleted
 
     def to_json(self) -> str:
